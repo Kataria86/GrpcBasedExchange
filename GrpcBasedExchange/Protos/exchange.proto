@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package exchange;
+
+// The gRPC service definition
+service ExchangeService {
+  rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc Register (MessageRequest) returns (stream MessageResponse);
+}
+
+// The request message
+message MessageRequest {
+  string sender = 1;
+  string target = 2;
+  string message = 3;
+}
+
+// The response message
+message MessageResponse {
+  bool success = 1;
+  string reply = 2;
+}
