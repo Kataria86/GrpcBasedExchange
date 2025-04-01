@@ -14,7 +14,7 @@ namespace GrpcBasedExchange
 
         }
 
-        public async void RegisterClient(string clientId)
+        public async void RegisterClient(string clientId, IProcessor handle)
         {
             
 
@@ -27,6 +27,13 @@ namespace GrpcBasedExchange
             while (await call.ResponseStream.MoveNext(CancellationToken.None))
             {
                 var message = call.ResponseStream.Current;
+                if (handle!=null)
+                {
+                    var r = handle.HandleMessage("test", message.ToString());
+                    client.SendMessage(new MessageRequest { Message = r });
+                }
+
+
                 Console.WriteLine($"Message from:{DateTime.Now.Microsecond} {message.Reply}");
             }
         }

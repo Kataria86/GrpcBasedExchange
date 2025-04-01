@@ -2,7 +2,10 @@
 using GrpcBasedExchange;
 
 Console.WriteLine("Hello, World!");
+
 MYService ms = new MYService();
+ms.RegisterClient("ProcessA", null);
+
 ms.SenedMessage("Hi Ankit");
 
 while (true)

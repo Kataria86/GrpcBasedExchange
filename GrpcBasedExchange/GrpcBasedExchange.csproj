@@ -10,7 +10,6 @@
     <Compile Remove="Exchange.cs" />
     <Compile Remove="ExchangeServerWrapper.cs" />
     <Compile Remove="IExchange.cs" />
-    <Compile Remove="IProcessor.cs" />
   </ItemGroup>
 
   <ItemGroup>

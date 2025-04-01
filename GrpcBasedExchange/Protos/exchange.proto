@@ -8,12 +8,23 @@ service ExchangeService {
   rpc Register (MessageRequest) returns (stream MessageResponse);
 }
 
-// The request message
-message MessageRequest {
-  string sender = 1;
-  string target = 2;
-  string message = 3;
+message RequestMessage {
+  string transaction_id = 1;
+  string message_id = 2;
+  bool waiting_for_response = 3;
+  string sender = 4;
+  repeated string receivers = 5;
+  string message_payload = 6;
 }
+
+
+
+// The request message
+//message MessageRequest {
+//  string sender = 1;
+//  string target = 2;
+//  string message = 3;
+//}
 
 // The response message
 message MessageResponse {
