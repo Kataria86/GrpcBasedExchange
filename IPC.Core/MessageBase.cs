@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public abstract class MessageBase
+    public interface IMessage
     {
-        public abstract string MessageId { get; }
+        public string MessageId { get;}
+
     }
 
 }

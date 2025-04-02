@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public abstract class MessageProcessorBase
+    public abstract class MessageProcessorCore
     {
-        public abstract IList<IMessageHandler> MessageHandlers { get; set; }
+        public IList<IMessageHandler> MessageHandlers { get; set; }
         public bool Process(MessageContainer messageContainer)
         {
             bool result = false;
@@ -16,7 +16,7 @@ namespace SDCIPCCore
             {
                 if (messageContainer != null &&  messageHandler.CanHandle(messageContainer.MessageId))
                 {
-                    result = messageHandler.Handle(messageContainer.MessageBody);
+                    result = messageHandler.Handle(messageContainer.MessagePayload);
                 }
             }
 

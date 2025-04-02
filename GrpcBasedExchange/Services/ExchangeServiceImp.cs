@@ -3,9 +3,9 @@ using Grpc.Core;
 
 namespace GrpcBasedExchange.Services
 {
-    public class ExchangeServiceImp : ExchangeService.ExchangeServiceBase
+    public class ExchangeServiceImp : Exchange.ExchangeService.ExchangeServiceBase
     {
-        public static Dictionary<string, IServerStreamWriter<MessageResponse>> cleints = new Dictionary<string, IServerStreamWriter<MessageResponse>>();
+        private static Dictionary<string, IServerStreamWriter<MessageRequest>> cleints = new Dictionary<string, IServerStreamWriter<MessageRequest>>();
         public ExchangeServiceImp()
         {
         }
@@ -14,7 +14,7 @@ namespace GrpcBasedExchange.Services
         {
             foreach (var client in cleints)
             {
-                var r = client.Value.WriteAsync(new MessageResponse() { Reply = request.Message });
+                client.Value.WriteAsync(request);
             }
             return Task.FromResult(new MessageResponse
             {
@@ -23,9 +23,10 @@ namespace GrpcBasedExchange.Services
             });
         }
 
-        public override async Task Register(MessageRequest request, IServerStreamWriter<MessageResponse> responseStream, ServerCallContext context)
+        public override async Task Register(ClientRegistrationRequest request, IServerStreamWriter<MessageRequest> responseStream, ServerCallContext context)
         {
-            cleints[request.Target] = responseStream;
+            cleints[request.ClientId] = responseStream;
+
             await Task.Delay(-1);
         }
 

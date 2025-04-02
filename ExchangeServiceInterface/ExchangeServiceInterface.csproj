@@ -1,18 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Exchange.cs" />
-    <Compile Remove="ExchangeServerWrapper.cs" />
-    <Compile Remove="IExchange.cs" />
-    <Compile Remove="IProcessor.cs" />
-    <Compile Remove="MYService.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.30.2" />
@@ -26,7 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Exchange.Contracts\Exchange.Contracts.csproj" />
+    <None Update="exchange.proto">
+      <GrpcServices>Both</GrpcServices>
+    </None>
   </ItemGroup>
 
 </Project>

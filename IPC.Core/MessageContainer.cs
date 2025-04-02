@@ -12,7 +12,7 @@ namespace SDCIPCCore
         public string MessageId { get; set; }
         public string Sender { get; set; }
         public bool WaitingForResponse { get; set; }
-        public List<string> Receivers { get; set; }
+        public IList<string> Receivers { get; set; }
         public string MessagePayload { get; set; }
     }
 }

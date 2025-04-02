@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:MainApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <Button x:Name="deviceOn" Click="deviceOn_Click">Switch On the Device</Button>
+        <Button x:Name="deviceOff">Switch of the Device</Button>
+        <Button x:Name="updateProperty">Set xyz Property to 100</Button>
+    </StackPanel>
 </Window>

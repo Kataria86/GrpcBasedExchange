@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public interface IMessageHandler<TParse, THandle>
+    public interface IMessageHandler
     {
         bool CanHandle(string messageId);
-        THandle Handle(string messageContainer);
+        bool Handle(string messageContainer);
     }
 }
