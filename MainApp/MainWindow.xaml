@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
         <Button x:Name="deviceOn" Click="deviceOn_Click">Switch On the Device</Button>
-        <Button x:Name="deviceOff">Switch of the Device</Button>
-        <Button x:Name="updateProperty">Set xyz Property to 100</Button>
+        <Button x:Name="deviceOff" Click="deviceOff_Click">Switch of the Device</Button>
+        <Button x:Name="updateProperty" Click="updateProperty_Click" >Set xyz Property to 100</Button>
     </StackPanel>
 </Window>

@@ -12,7 +12,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Width="50" Grid.Row="1">Off</TextBlock>
-        <RichTextBox x:Name="jsonText"></RichTextBox>
+        <TextBlock Grid.Row="1" Name="txtStatus" TextWrapping="Wrap">Off</TextBlock>
+        <TextBlock Grid.Row="2" x:Name="jsonText"></TextBlock>
     </Grid>
 </Window>

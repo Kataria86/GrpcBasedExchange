@@ -8,8 +8,8 @@ namespace SDCIPCCore
 {
     public interface IMessageService
     {
-        public bool SendMessage(string message);
+        bool SendMessage(MessageContainer message);
 
-        public bool RegisterClient(string clientId, MessageProcessorCore messageProcessorCore);
+        Task RegisterClient(string clientId, MessageProcessorCore messageProcessorCore);
     }
 }

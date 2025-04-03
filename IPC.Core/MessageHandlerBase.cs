@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public abstract class MessageHandlerBase<T> : IMessageHandler
+    public abstract class MessageHandlerBase<T> : IMessageHandler where T : Message
     {
         public bool CanHandle(string messageId)
         {
-            return string.Equals(messageId, GetMessageId(), StringComparison.OrdinalIgnoreCase);
+            var id = typeof(T).ToString();
+            return string.Equals(messageId, id, StringComparison.OrdinalIgnoreCase);
         }
 
-        public abstract bool Handle(string messageContainer);
+        public abstract bool Handle(string messageId, string messagePayload);
+
+   
 
         protected virtual T Parse(string msg, JsonSerializerSettings settings = null)
         {
@@ -28,7 +31,5 @@ namespace SDCIPCCore
                 ? JsonConvert.DeserializeObject<T>(msg)
                 : JsonConvert.DeserializeObject<T>(msg, settings);
         }
-
-        protected abstract string GetMessageId();
     }
 }

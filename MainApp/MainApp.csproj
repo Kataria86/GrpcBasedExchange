@@ -8,4 +8,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceControl.Messages\DeviceControl.Messages.csproj" />
+    <ProjectReference Include="..\ExchnageClient\ExchnageClient.csproj" />
+    <ProjectReference Include="..\IPC.Core\SDCIPCCore.csproj" />
+  </ItemGroup>
+
 </Project>

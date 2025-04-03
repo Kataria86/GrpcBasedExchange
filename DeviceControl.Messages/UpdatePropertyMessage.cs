@@ -2,8 +2,13 @@
 
 namespace DeviceControl.Messages
 {
-    public class UpdatePropertyMessage : IMessage
+    public class UpdatePropertyMessage : DeviceControlMessage
     {
-        public string MessageId => "DC_UpdatePropertyMessage";
+        public UpdatePropertyMessage()
+        {
+        }
+
+        public string PropertyName { get; set; } = string.Empty;
+        public string PropertyValue { get; set; } = string.Empty;
     }
 }

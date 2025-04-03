@@ -6,17 +6,24 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public abstract class MessageProcessorCore
+    public class MessageProcessorCore
     {
-        public IList<IMessageHandler> MessageHandlers { get; set; }
+        private readonly IList<IMessageHandler> messageHandlers;
+
+        public MessageProcessorCore(IList<IMessageHandler> messageHandlers)
+        {
+            this.messageHandlers = messageHandlers;
+
+        }
+
         public bool Process(MessageContainer messageContainer)
         {
             bool result = false;
-            foreach (var messageHandler in MessageHandlers)
+            foreach (var messageHandler in messageHandlers)
             {
-                if (messageContainer != null &&  messageHandler.CanHandle(messageContainer.MessageId))
+                if (messageContainer != null && messageHandler.CanHandle(messageContainer.MessageId))
                 {
-                    result = messageHandler.Handle(messageContainer.MessagePayload);
+                    result = messageHandler.Handle(messageContainer.MessageId, messageContainer.MessagePayload);
                 }
             }
 

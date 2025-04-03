@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public interface IMessage
+    public class Message
     {
-        public string MessageId { get;}
+
+        public string MessageId { get { return this.GetType().ToString(); } }
 
     }
 

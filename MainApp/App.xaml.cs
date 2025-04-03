@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.Reflection.Metadata;
 using System.Windows;
 
 namespace MainApp;
@@ -9,5 +10,6 @@ namespace MainApp;
 /// </summary>
 public partial class App : Application
 {
+    public  const string UniqueId = "MainApp"; 
 }
 

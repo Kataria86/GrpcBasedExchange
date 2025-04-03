@@ -9,6 +9,6 @@ namespace SDCIPCCore
     public interface IMessageHandler
     {
         bool CanHandle(string messageId);
-        bool Handle(string messageContainer);
+        bool Handle(string messageId, string messagePayload);
     }
 }

@@ -2,7 +2,7 @@
 using Grpc.Net.Client;
 using SDCIPCCore;
 
--namespace ExchnageClient
+namespace ExchnageClient
 {
     public class MessageService : IMessageService
     {
@@ -18,34 +18,46 @@ using SDCIPCCore;
 
 
         public async Task RegisterClient(string clientId, MessageProcessorCore processorCore)
-        {   
-            var call = client.Register(new ClientRegistrationRequest { ClientId=clientId});
-            
+        {
+            var call = client.Register(new ClientRegistrationRequest { ClientId = clientId });
+
             Console.WriteLine("Listening for messages...");
             while (await call.ResponseStream.MoveNext(CancellationToken.None))
             {
                 var message = call.ResponseStream.Current;
+
+                processorCore.Process(new MessageContainer
+                {
+                    MessageId = message.MessageId,
+                    MessagePayload = message.MessagePayload,
+
+                });
+
                 //if (handle != null)
                 //{
                 //    var r = handle.HandleMessage("test", message.ToString());
                 //    client.SendMessage(new MessageRequest { Message = r });
                 //}
 
-                Console.WriteLine($"Message from:{DateTime.Now.Microsecond} {message.Reply}");
+                Console.WriteLine($"Message from:{DateTime.Now.Microsecond} {message}");
             }
         }
 
-        public void SenedMessage(MessageContainer message)
+        public bool SendMessage(MessageContainer message)
         {
-            client.SendMessage(new MessageRequest
+
+            var request = new MessageRequest
             {
-                MessageId = message.MessageId,
-                MessagePayload = message.MessagePayload
+                MessageId =message.MessageId,
+                //Receivers=new Google.Protobuf.Collections.RepeatedField<string>(),
+                MessagePayload = message.MessagePayload,
+               TransactionId="123"
+            };
+            request.Receivers.Add("DeviceControl");
 
+            var result = client.SendMessage(request);
 
-            });
-            
+            return result.Success;
         }
     }
 }
-       
