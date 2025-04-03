@@ -10,7 +10,7 @@ namespace SDCIPCCore
 {
     public static class MessageBuilder
     {
-        public static MessageContainer Build(Message message, IList<string> receivers)
+        public static MessageContainer Build(MessageBase message, IList<string> receivers)
         {
             return new MessageContainer
             {

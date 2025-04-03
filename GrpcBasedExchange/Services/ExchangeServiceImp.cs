@@ -10,17 +10,23 @@ namespace GrpcBasedExchange.Services
         {
         }
 
-        public override Task<MessageResponse> SendMessage(MessageRequest request, ServerCallContext context)
+        public override async Task<MessageResponse> SendMessage(MessageRequest request, ServerCallContext context)
         {
-            foreach (var client in cleints)
+            var client = cleints[request.Receivers];
+
+            if (client != null)
             {
-                client.Value.WriteAsync(request);
+                await client.WriteAsync(request);
             }
-            return Task.FromResult(new MessageResponse
+
+
+            var r = await Task.FromResult(new MessageResponse
             {
                 Success = true,
                 //Reply = responseMessage
             });
+
+            return r;
         }
 
         public override async Task Register(ClientRegistrationRequest request, IServerStreamWriter<MessageRequest> responseStream, ServerCallContext context)

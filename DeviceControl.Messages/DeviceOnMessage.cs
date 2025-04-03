@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeviceControl.Messages
 {
-    public class DeviceOnMessage : Message
+    public class DeviceOnMessage : MessageBase
     {
         public string DeviceName { get; set; }
 

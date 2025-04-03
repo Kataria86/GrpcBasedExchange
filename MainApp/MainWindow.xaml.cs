@@ -25,7 +25,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         this.messageService = new MessageService();
-
+        //this.messageService.RegisterClient(App.UniqueId, new MessageProcessorCore());
         InitializeComponent();
 
     }
@@ -79,7 +79,7 @@ public partial class MainWindow : Window
 
         messageService.SendMessage(new MessageContainer
         {
-            MessageId = deviceOnMessage.GetType().ToString(),
+            MessageId = deviceOnMessage.MessageId,
             Sender = App.UniqueId,
             Receivers = new List<string> { "DeviceControl" },
             TransactionId = string.Empty,

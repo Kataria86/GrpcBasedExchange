@@ -6,6 +6,7 @@ namespace ExchnageClient
 {
     public class MessageService : IMessageService
     {
+        
         ExchangeService.ExchangeServiceClient client;
 
         public MessageService()
@@ -53,7 +54,7 @@ namespace ExchnageClient
                 MessagePayload = message.MessagePayload,
                TransactionId="123"
             };
-            request.Receivers.Add("DeviceControl");
+            request.Receivers="DeviceControl";
 
             var result = client.SendMessage(request);
 

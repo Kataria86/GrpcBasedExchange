@@ -8,12 +8,19 @@ service ExchangeService {
   rpc Register (ClientRegistrationRequest) returns (stream MessageRequest);
 }
 
+message BroadcastMessageRequest {
+  
+  string message_id = 1;
+  string sender = 2;  
+  string message_payload = 6;
+}
+
 message MessageRequest {
   string transaction_id = 1;
   string message_id = 2;
   bool waiting_for_response = 3;
   string sender = 4;
-  repeated string receivers = 5;
+  string receivers = 5;
   string message_payload = 6;
 }
 

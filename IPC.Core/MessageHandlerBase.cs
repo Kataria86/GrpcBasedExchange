@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public abstract class MessageHandlerBase<T> : IMessageHandler where T : Message
+    public abstract class MessageHandlerBase<T> : IMessageHandler where T : MessageBase
     {
         public bool CanHandle(string messageId)
         {

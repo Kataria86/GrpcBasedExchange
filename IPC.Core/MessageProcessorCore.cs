@@ -13,14 +13,13 @@ namespace SDCIPCCore
         public MessageProcessorCore(IList<IMessageHandler> messageHandlers)
         {
             this.messageHandlers = messageHandlers;
-
         }
 
         public bool Process(MessageContainer messageContainer)
         {
             bool result = false;
             foreach (var messageHandler in messageHandlers)
-            {
+            {         
                 if (messageContainer != null && messageHandler.CanHandle(messageContainer.MessageId))
                 {
                     result = messageHandler.Handle(messageContainer.MessageId, messageContainer.MessagePayload);

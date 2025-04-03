@@ -2,7 +2,7 @@
 
 namespace DeviceControl.Messages
 {
-    public class DeviceControlMessage : Message
+    public class DeviceControlMessage : MessageBase
     {
         public DeviceControlMessage()
         {

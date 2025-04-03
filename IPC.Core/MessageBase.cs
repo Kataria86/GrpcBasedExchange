@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public class Message
+    public class MessageBase
     {
 
         public string MessageId { get { return this.GetType().ToString(); } }
