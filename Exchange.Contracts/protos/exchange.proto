@@ -5,9 +5,15 @@ package exchange;
 // The gRPC service definition
 service ExchangeService {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc SendResponse (MessageRequest) returns (MessageResponse);
   rpc Register (ClientRegistrationRequest) returns (stream MessageRequest);
+  rpc WaitForResponse (RequestId) returns (MessageRequest);
 }
 
+
+message RequestId {
+  string transactionId_id = 1;
+}
 message BroadcastMessageRequest {
   
   string message_id = 1;

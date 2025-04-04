@@ -9,6 +9,8 @@ namespace SDCIPCCore
     public interface IMessageService
     {
         bool SendMessage(MessageContainer message);
+        Task<bool> SendMessageWithWait(MessageContainer message);
+
 
         Task RegisterClient(string clientId, MessageProcessorCore messageProcessorCore);
     }

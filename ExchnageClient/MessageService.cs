@@ -1,13 +1,16 @@
 ﻿using Exchange;
 using Grpc.Net.Client;
 using SDCIPCCore;
+using System.Threading.Tasks;
 
 namespace ExchnageClient
 {
+
     public class MessageService : IMessageService
     {
-        
+
         ExchangeService.ExchangeServiceClient client;
+        ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
 
         public MessageService()
         {
@@ -34,6 +37,19 @@ namespace ExchnageClient
 
                 });
 
+                if (message.WaitingForResponse)
+                {
+                    client.SendResponse(
+                        new MessageRequest
+                        {
+                            MessageId = message.MessageId,
+                            Receivers = message.Sender,
+                            TransactionId = message.TransactionId,
+                            MessagePayload = "Hi Here is my Response"
+                        }
+
+                        );
+                }
                 //if (handle != null)
                 //{
                 //    var r = handle.HandleMessage("test", message.ToString());
@@ -49,16 +65,43 @@ namespace ExchnageClient
 
             var request = new MessageRequest
             {
-                MessageId =message.MessageId,
+                MessageId = message.MessageId,
                 //Receivers=new Google.Protobuf.Collections.RepeatedField<string>(),
                 MessagePayload = message.MessagePayload,
-               TransactionId="123"
+                TransactionId = "123",
             };
-            request.Receivers="DeviceControl";
+            request.Receivers = "DeviceControl";
 
             var result = client.SendMessage(request);
+          
 
             return result.Success;
         }
+
+        public async Task<bool> SendMessageWithWait(MessageContainer message)
+        {
+            string transactionId = Guid.NewGuid().ToString();
+            var responseTask = client.WaitForResponseAsync(new RequestId { TransactionIdId = transactionId });
+
+
+            var request = new MessageRequest
+            {
+                MessageId = message.MessageId,
+                //Receivers=new Google.Protobuf.Collections.RepeatedField<string>(),
+                MessagePayload = message.MessagePayload,
+                TransactionId = transactionId,
+                WaitingForResponse = true
+            };
+            request.Receivers = "DeviceControl";
+
+            var awk = client.SendMessage(request);
+
+
+            var result = await responseTask;
+
+            return true;
+        }
+
+        
     }
 }

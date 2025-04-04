@@ -30,7 +30,8 @@ namespace GrpcBasedExchange
                 if (handle!=null)
                 {
                     var r = handle.HandleMessage("test", message.ToString());
-                    client.SendMessage(new MessageRequest { Message = r });
+                    if (message.) {
+                    client.(new MessageRequest { Message = r });
                 }
 
 

@@ -57,7 +57,7 @@ public partial class MainWindow : Window
 
         };
 
-        messageService.SendMessage(new MessageContainer
+        messageService.SendMessageWithWait(new MessageContainer
         {
             MessageId = deviceOnMessage.GetType().ToString(),
             Sender = App.UniqueId,
@@ -77,7 +77,7 @@ public partial class MainWindow : Window
             PropertyValue = "100"
         };
 
-        messageService.SendMessage(new MessageContainer
+        messageService.SendMessageWithWait(new MessageContainer
         {
             MessageId = deviceOnMessage.MessageId,
             Sender = App.UniqueId,
