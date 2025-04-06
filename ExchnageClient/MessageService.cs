@@ -81,7 +81,6 @@ namespace ExchnageClient
         public async Task<bool> SendMessageWithWait(MessageContainer message)
         {
             string transactionId = Guid.NewGuid().ToString();
-            var responseTask = client.WaitForResponseAsync(new RequestId { TransactionIdId = transactionId });
 
 
             var request = new MessageRequest
@@ -92,6 +91,9 @@ namespace ExchnageClient
                 TransactionId = transactionId,
                 WaitingForResponse = true
             };
+
+            var responseTask = client.WaitForResponseAsync(new RequestId { TransactionIdId = transactionId });
+
             request.Receivers = "DeviceControl";
 
             var awk = client.SendMessage(request);
