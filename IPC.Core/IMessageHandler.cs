@@ -8,7 +8,10 @@ namespace SDCIPCCore
 {
     public interface IMessageHandler
     {
-        bool CanHandle(string messageId);
-        bool Handle(string messageId, string messagePayload);
+        bool CanHandle(string messageId); // Checks if the message can be handled
+        object Handle(string messageId, string messagePayload); // Handles the message and returns TResult
+
+
     }
+
 }

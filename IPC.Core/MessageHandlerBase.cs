@@ -16,7 +16,7 @@ namespace SDCIPCCore
             return string.Equals(messageId, id, StringComparison.OrdinalIgnoreCase);
         }
 
-        public abstract bool Handle(string messageId, string messagePayload);
+        public abstract object Handle(string messageId, string messagePayload);
 
    
 
@@ -31,5 +31,6 @@ namespace SDCIPCCore
                 ? JsonConvert.DeserializeObject<T>(msg)
                 : JsonConvert.DeserializeObject<T>(msg, settings);
         }
+
     }
 }

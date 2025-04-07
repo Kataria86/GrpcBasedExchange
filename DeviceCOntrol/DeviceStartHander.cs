@@ -7,7 +7,7 @@ namespace DeviceCOntrol
     {
         public event EventHandler<dynamic> Processed;
 
-        public override bool Handle(string messageId, string messagePayload)
+        public override object Handle(string messageId, string messagePayload)
         {
             Thread.Sleep(5000);
             DeviceOnMessage result = Parse(messagePayload);

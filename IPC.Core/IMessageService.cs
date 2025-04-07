@@ -8,10 +8,24 @@ namespace SDCIPCCore
 {
     public interface IMessageService
     {
-        bool SendMessage(MessageContainer message);
-        Task<bool> SendMessageWithWait(MessageContainer message);
+        string SenderId { get; set; }
+        Task<bool> BroadcastMessage(MessageBase message);
+        Task<Response> SendMessage(string receiverId, MessageBase message);
+        Task<T?> SendMessage<T>(string receiverId, MessageBase message);
 
-
+        Task<bool> SendResponse(string transactionId, bool result, string data);
         Task RegisterClient(string clientId, MessageProcessorCore messageProcessorCore);
+    }
+
+    public class Response
+    {
+        public Response(bool success, string reply)
+        {
+            Success = success;
+            Reply = reply;
+        }
+
+        public string Reply { get; set; }
+        public bool Success { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,18 +16,30 @@ namespace SDCIPCCore
             this.messageHandlers = messageHandlers;
         }
 
-        public bool Process(MessageContainer messageContainer)
+        public Result Process(string messageId, string messagePayload)
         {
-            bool result = false;
+            Result result = null;
             foreach (var messageHandler in messageHandlers)
-            {         
-                if (messageContainer != null && messageHandler.CanHandle(messageContainer.MessageId))
+            {
+                if (messagePayload != null && messageHandler.CanHandle(messageId))
                 {
-                    result = messageHandler.Handle(messageContainer.MessageId, messageContainer.MessagePayload);
+                    return new Result
+                    {
+                        Data =messageHandler.Handle(messageId, messagePayload),
+                        Success = true
+
+                    };
                 }
             }
 
             return result;
         }
+    }
+
+    public class Result
+    {
+        public bool Success { get; set; }
+        public Object Data { get; set; }
+
     }
 }

@@ -6,66 +6,71 @@ namespace GrpcBasedExchange.Services
 {
     public class ExchangeServiceImp : Exchange.ExchangeService.ExchangeServiceBase
     {
-        private static Dictionary<string, IServerStreamWriter<MessageRequest>> cleints = new Dictionary<string, IServerStreamWriter<MessageRequest>>();
-        private static readonly ConcurrentDictionary<string, TaskCompletionSource<MessageRequest>> _pendingResponses = new();
+        private static Dictionary<string, IServerStreamWriter<MessageRequest>> cleints = new();
+        private static readonly ConcurrentDictionary<string, TaskCompletionSource<MessageResponse>> _pendingResponses = new();
 
-        public ExchangeServiceImp()
+
+
+
+        public override async Task<Acknowledge> SendMessage(MessageRequest request, ServerCallContext context)
         {
+            Acknowledge result = null;
+            if (request.Receiver == null)//Broadcast the message
+            {
+                foreach (var client in cleints.Values)
+                {
+                    await client.WriteAsync(request);
+                }
+
+                result = await Task.FromResult(new Acknowledge
+                {
+                    Success = true,
+                });
+            }
+            else// send message to specific cleint app.
+            {
+                var client = cleints[request.Receiver];
+
+                if (client == null)
+                {
+                    //TODO need to re-think
+                    return await Task.FromResult(new Acknowledge { });
+                }
+
+                var tcs = new TaskCompletionSource<MessageResponse>();
+                _pendingResponses[request.TransactionId] = tcs;
+
+                await client.WriteAsync(request);
+
+                var response = await tcs.Task;
+
+                result = await Task.FromResult(new Acknowledge
+                {
+                    Success = true,
+                    Reply = response.Data
+                });
+
+            }
+
+            return result;
         }
 
-        public override async Task<MessageResponse> SendResponse(MessageRequest request, ServerCallContext context)
+        public override async Task<Acknowledge> SendResponse(MessageResponse request, ServerCallContext context)
         {
-            //Console.WriteLine($"Received response from {request.Sender} for {request.Recipient}");
-
             if (_pendingResponses.TryRemove(request.TransactionId, out var tcs))
             {
                 tcs.SetResult(request); // Unblock the waiting client
             }
 
-            return new MessageResponse { Success = true };
+            return await Task.FromResult(new Acknowledge { Success = true });
         }
 
-        public override async Task<MessageResponse> SendMessage(MessageRequest request, ServerCallContext context)
-        {
-            var client = cleints[request.Receivers];
-            if (request.WaitingForResponse)
-            {
-                // Store a TaskCompletionSource for the response
-                var tcs = new TaskCompletionSource<MessageRequest>();
-                _pendingResponses[request.TransactionId] = tcs; // Use a unique messageId instead of text in real cases
-
-            }
-
-            if (client != null)
-            {
-                await client.WriteAsync(request);
-            }
-
-
-            var r = await Task.FromResult(new MessageResponse
-            {
-                Success = true,
-                //Reply = responseMessage
-            });
-
-            return r;
-        }
-
-        public override async Task Register(ClientRegistrationRequest request, IServerStreamWriter<MessageRequest> responseStream, ServerCallContext context)
+        public override async Task RegisterClient(ClientRegistrationRequest request, IServerStreamWriter<MessageRequest> responseStream, ServerCallContext context)
         {
             cleints[request.ClientId] = responseStream;
 
             await Task.Delay(-1);
         }
 
-        public override async Task<MessageRequest> WaitForResponse(RequestId request, ServerCallContext context)
-        {
-         
-            if (_pendingResponses.TryGetValue(request.TransactionIdId, out var tcs))
-            {
-                return await tcs.Task;
-            }
-            return null;
-        }
     }
 }

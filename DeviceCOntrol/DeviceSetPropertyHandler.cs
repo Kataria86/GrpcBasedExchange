@@ -7,7 +7,7 @@ namespace DeviceCOntrol
     {
         public event EventHandler<dynamic> Processed;
 
-        public override bool Handle(string messageId, string messagePayload)
+        public override object Handle(string messageId, string messagePayload)
         {
             UpdatePropertyMessage result = Parse(messagePayload);
 

@@ -24,8 +24,7 @@ public partial class MainWindow : Window
     IMessageService messageService;
     public MainWindow()
     {
-        this.messageService = new MessageService();
-        //this.messageService.RegisterClient(App.UniqueId, new MessageProcessorCore());
+        this.messageService = new MessageService(App.UniqueId);
         InitializeComponent();
 
     }
@@ -34,41 +33,26 @@ public partial class MainWindow : Window
     {
         var deviceOnMessage = new DeviceOnMessage
         {
-            DeviceName = "1788 Camera"         
+            DeviceName = "1788 Camera"
 
         };
 
-        messageService.SendMessage(new MessageContainer
-        {
-            MessageId = deviceOnMessage.GetType().ToString(),
-            Sender = App.UniqueId,
-            Receivers = new List<string>{"DeviceControl"},
-            TransactionId=string.Empty,
-            MessagePayload = JsonSerializer.Serialize(deviceOnMessage)
-
-        }); 
+        messageService.SendMessage("DeviceControl", deviceOnMessage);
     }
 
     private void deviceOff_Click(object sender, RoutedEventArgs e)
     {
-        var deviceOnMessage = new DeviceOffMessage
+        var deviceOFFMessage = new DeviceOffMessage
         {
             DeviceName = "1788 Camera"
 
         };
 
-        messageService.SendMessageWithWait(new MessageContainer
-        {
-            MessageId = deviceOnMessage.GetType().ToString(),
-            Sender = App.UniqueId,
-            Receivers = new List<string> { "DeviceControl" },
-            TransactionId = string.Empty,
-            MessagePayload = JsonSerializer.Serialize(deviceOnMessage)
+        messageService.SendMessage("DeviceControl", deviceOFFMessage);
 
-        });
     }
 
-    private void updateProperty_Click(object sender, RoutedEventArgs e)
+    private async void updateProperty_Click(object sender, RoutedEventArgs e)
     {
         var deviceOnMessage = new UpdatePropertyMessage
         {
@@ -77,14 +61,15 @@ public partial class MainWindow : Window
             PropertyValue = "100"
         };
 
-        messageService.SendMessageWithWait(new MessageContainer
+        Mouse.OverrideCursor = Cursors.Wait;
+        
+        var result = await messageService.SendMessage("DeviceControl", deviceOnMessage);
+        if (result != null)
         {
-            MessageId = deviceOnMessage.MessageId,
-            Sender = App.UniqueId,
-            Receivers = new List<string> { "DeviceControl" },
-            TransactionId = string.Empty,
-            MessagePayload = JsonSerializer.Serialize(deviceOnMessage)
+            MessageBox.Show(result.Reply, "My Response");
+        }
 
-        });
+        Mouse.OverrideCursor = Cursors.Arrow;
+
     }
 }

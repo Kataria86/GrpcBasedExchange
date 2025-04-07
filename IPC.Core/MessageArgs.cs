@@ -6,13 +6,5 @@ using System.Threading.Tasks;
 
 namespace SDCIPCCore
 {
-    public class MessageReceivedArgs : EventArgs
-    {
-        public MessageContainer Message;
 
-        public MessageReceivedArgs(MessageContainer message)
-        {
-            this.Message = message;
-        }
-    }
 }

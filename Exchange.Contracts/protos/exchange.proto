@@ -1,50 +1,40 @@
 syntax = "proto3";
-
+import "google/protobuf/wrappers.proto";  
 package exchange;
 
 // The gRPC service definition
 service ExchangeService {
-  rpc SendMessage (MessageRequest) returns (MessageResponse);
-  rpc SendResponse (MessageRequest) returns (MessageResponse);
-  rpc Register (ClientRegistrationRequest) returns (stream MessageRequest);
-  rpc WaitForResponse (RequestId) returns (MessageRequest);
+  rpc SendMessage (MessageRequest) returns (Acknowledge);
+  rpc SendResponse (MessageResponse) returns (Acknowledge);
+  rpc RegisterClient (ClientRegistrationRequest) returns (stream MessageRequest);
+ 
 }
 
 
 message RequestId {
-  string transactionId_id = 1;
-}
-message BroadcastMessageRequest {
-  
-  string message_id = 1;
-  string sender = 2;  
-  string message_payload = 6;
+  string transaction_id = 1;
 }
 
 message MessageRequest {
-  string transaction_id = 1;
+   google.protobuf.StringValue transaction_id = 1; //nullable filed, Keep null in case of broadcaset message
   string message_id = 2;
-  bool waiting_for_response = 3;
-  string sender = 4;
-  string receivers = 5;
-  string message_payload = 6;
+  string sender = 3;
+   google.protobuf.StringValue receiver = 4;//nullable filed, Keep null in case of broadcaset message
+  string message_payload = 5;
 }
 
 message ClientRegistrationRequest {
   string client_id = 1;
 }
 
-
-
-// The request message
-//message MessageRequest {
-//  string sender = 1;
-//  string target = 2;
-//  string message = 3;
-//}
-
-// The response message
-message MessageResponse {
+message Acknowledge {
   bool success = 1;
   string reply = 2;
+}
+
+
+message MessageResponse {
+  string transaction_id = 1;
+  bool result = 2;
+  string data = 3;
 }
