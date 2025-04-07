@@ -1,4 +1,4 @@
-﻿using DeviceControl.Messages;
+﻿using DeviceControl.Messages
 using SDCIPCCore;
 
 namespace DeviceCOntrol

@@ -25,12 +25,11 @@ public:
 
         ClientContext context;
         std::unique_ptr<ClientReader<MessageRequest>> reader(
-            stub_->Register(&context, request));
+            stub_->RegisterClient(&context, request));
 
         MessageRequest message;
         while (reader->Read(&message)) {
             std::cout << "Received message:\n";
-            std::cout << "  Transaction ID: " << message.transaction_id() << "\n";
             std::cout << "  Sender: " << message.sender() << "\n";
             std::cout << "  Payload: " << message.message_payload() << "\n";
             std::cout << "-------------------------\n";

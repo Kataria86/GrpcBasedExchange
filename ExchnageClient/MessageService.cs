@@ -65,7 +65,7 @@ namespace ExchnageClient
 
         public async Task<Response> SendMessage(string receiverId, MessageBase message)
         {
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
 
             Acknowledge result;
 

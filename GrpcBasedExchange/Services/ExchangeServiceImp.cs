@@ -19,7 +19,10 @@ namespace GrpcBasedExchange.Services
             {
                 foreach (var client in cleints.Values)
                 {
-                    await client.WriteAsync(request);
+                    if (client != null)
+                    {
+                        await client.WriteAsync(request);
+                    }
                 }
 
                 result = await Task.FromResult(new Acknowledge

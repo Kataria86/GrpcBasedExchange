@@ -9,12 +9,13 @@ namespace DeviceCOntrol
 
         public override object Handle(string messageId, string messagePayload)
         {
-            Thread.Sleep(5000);
             DeviceOnMessage result = Parse(messagePayload);
 
             if (result!=null && Processed != null) 
             {
                 Processed.Invoke(this, new { JSON = messagePayload, ConnreteObject = result });
+
+                MainWindow.messageService.BroadcastMessage(new DevicesStatusMessage { DeviceName = result.DeviceName, Status = DeviceStatus.On });
             }
             
             return true;

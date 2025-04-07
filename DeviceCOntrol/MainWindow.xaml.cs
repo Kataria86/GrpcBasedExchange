@@ -18,7 +18,7 @@ namespace DeviceCOntrol
     /// </summary>
     public partial class MainWindow : Window
     {
-        IMessageService messageService = new MessageService("DeviceControl");
+        public static IMessageService messageService = new MessageService("DeviceControl");
         public MainWindow()
         {
             List<IMessageHandler> handlers = new List<IMessageHandler>();

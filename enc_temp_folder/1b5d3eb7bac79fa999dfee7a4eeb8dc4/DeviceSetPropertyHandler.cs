@@ -1,15 +1,16 @@
 ﻿using DeviceControl.Messages;
+using ExchnageClient;
 using SDCIPCCore;
 
 namespace DeviceCOntrol
 {
-    internal class DeviceStopHander : MessageHandlerBase<DeviceOffMessage>
+    internal class DeviceSetPropertyHandler : MessageHandlerBase<UpdatePropertyMessage>
     {
         public event EventHandler<dynamic> Processed;
-        
+
         public override object Handle(string messageId, string messagePayload)
         {
-            DeviceOffMessage result = Parse(messagePayload);
+            UpdatePropertyMessage result = Parse(messagePayload);
 
             if (result != null && Processed != null)
             {
