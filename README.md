@@ -2,6 +2,11 @@
 
 A lightweight, high-performance, **gRPC-based message exchange system** designed for efficient real-time communication between distributed services. Built using .NET and C#, this project showcases modern service-to-service communication patterns with a focus on scalability and maintainability.
 
+### Clone the repository
+
+```bash
+git clone https://github.com/Kataria86/GrpcBasedExchange.git
+cd GrpcBasedExchange
 ---
 
 ## 🚀 Features
