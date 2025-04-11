@@ -1,4 +1,4 @@
-# GrpcBasedExchange #Message broker like MQ
+#GRPC Message broker like MQ
 
 A lightweight, high-performance, **gRPC-based message exchange system** designed for efficient real-time communication between distributed services. Built using .NET and C#, this project showcases modern service-to-service communication patterns with a focus on scalability and maintainability.
 
