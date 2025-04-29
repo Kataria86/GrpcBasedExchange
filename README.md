@@ -28,8 +28,6 @@ gRPC Protocol: Utilizes gRPC for communication, which is more efficient and prov
 
 Publish/Subscribe Model: Allow message producers to publish messages, which can be consumed by multiple consumers (subscribers).
 
-Routing Support: Ability to route messages to different consumers based on topic/queue configurations.
-
 High Performance: Optimized for low-latency, high-throughput message exchange.
 
 Easy to Extend: Easily extensible for custom message filtering, transformations, or advanced features like dead-letter queues.
