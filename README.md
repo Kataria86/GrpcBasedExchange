@@ -1,4 +1,4 @@
-# GRPC Message broker like MQ
+# GRPC Message broker (message service)
 
 A lightweight, high-performance, **gRPC-based message exchange system** designed for efficient real-time communication between distributed services. Built using .NET and C#, this project showcases modern service-to-service communication patterns with a focus on scalability and maintainability.
 
@@ -19,7 +19,7 @@ cd GrpcBasedExchange
 
 gRPC-based Message Exchange
 Overview
-This is a gRPC-based message exchange system designed to help you build scalable, efficient, and distributed message queues for your applications, similar to RabbitMQ, but leveraging the gRPC protocol for communication. This exchange allows message producers and consumers to communicate with low-latency, bidirectional communication channels via gRPC. It is ideal for microservices, event-driven architectures, and distributed systems.
+This is a gRPC-based message exchange system designed to help you build scalable, efficient, , but leveraging the gRPC protocol for communication. This exchange allows message producers and consumers to communicate with low-latency, bidirectional communication channels via gRPC. It is ideal for microservices, event-driven architectures, and distributed systems.
 
 The core of this system is built on gRPC, providing fast, reliable, and language-agnostic message exchanges. It supports topics, queues, and routing to facilitate advanced messaging patterns.
 
